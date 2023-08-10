@@ -70,7 +70,7 @@ export const CheckBoxKeys = {
 export const CommandPH = {
     Data: 'Общая информация',
     Link: 'Ссылка на телеграм или любой другой вид связи',
-    MMR: 'Приблизтельный ММР команды',
+    MMR: 'Приблизительный ММР команды',
 };
 
 export const PlayerPH = {
