@@ -4,7 +4,6 @@ import * as React from "react";
 import {FIXMELATER} from "../../../shared/Constants";
 
 
-// onChange: (e: { target: { type: string; name: any; checked: any; value: ((prevState: number[]) => number[]) | number[] } }) => void
 export function MySlider(props: { ariaLabel: () => string, value: number[], onChange: FIXMELATER, ariaValueText: (e: any) => string }) {
     return <Slider
         getAriaLabel={props.ariaLabel}

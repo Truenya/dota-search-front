@@ -1,14 +1,14 @@
-.item-add-form{
+.item-add-form {
     padding-left: 12px;
     padding-right: 12px;
 }
 
-.item-add-form btn{
+.item-add-form btn {
     margin-right: 20px;
     margin-left: 20px;
 }
 
-.item-add input{
+.item-add input {
     padding: 6px 12px;
     background: rgb(31, 32, 35);
     border: 1px solid rgb(60, 63, 68);
@@ -18,9 +18,9 @@
     height: 46px;
     appearance: none;
     transition: border 0.15s ease 0s;
-:focus{
+}
+:focus {
     outline: none;
     box-shadow: none;
     border-color: rgb(100, 153, 255);
-}
 }

@@ -6,7 +6,7 @@ import 'webpack-dev-server';
 
 const stylesHandler = 'style-loader';
 
-const config: webpack.Configuration  = {
+const config: webpack.Configuration = {
     entry: './src/index.tsx',
     output: {
         path: path.resolve(__dirname, 'build'),
@@ -45,7 +45,7 @@ const config: webpack.Configuration  = {
             },
             {
                 test: /\.css$/i,
-                use: [stylesHandler,'css-loader'],
+                use: [stylesHandler, 'css-loader'],
             },
             {
                 test: /\.html$/i,

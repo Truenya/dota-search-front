@@ -1,9 +1,11 @@
 import {getId} from "./util";
 
-export const ItemType = {COMMAND: 'command', PLAYER: 'player', MESSAGE: 'message'};
+export const ItemTypeC = {COMMAND: <ItemTypo> 'command', PLAYER:<ItemTypo> 'player', MESSAGE:<ItemTypo> 'message'};
+export type ItemTypo = 'command' | 'player' | 'message';
 export const QUINN_MMR = 12000;
 export const POSITIONS = ['HardSupport', 'SoftSupport', 'Offlane', 'Midlane', 'Carry'];
 export type FIXMELATER = any;
+
 export const enum HttpStatusCode {
     Continue = 100,
     SwitchingProtocols = 101,
@@ -54,6 +56,7 @@ export const enum HttpStatusCode {
     GatewayTimeout = 504,
     HttpVersionNotSupported = 505
 }
+
 export const TextInputKeys = {
     Data: getId('text_input_'),
     Link: getId('text_input_'),

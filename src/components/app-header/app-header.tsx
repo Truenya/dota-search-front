@@ -1,27 +1,18 @@
 import './app-header.css';
 import FilterPanel from "../filter-panel";
-import {FIXMELATER} from "../../shared/Constants";
-// @ts-ignore
-import { Stack } from '@mui/material';
+import {Stack} from '@mui/material';
 import React from 'react';
+import {useAppSelector} from "../app/hooks";
 
-export class AppHeaderProps{
-    itemType:string = 'command'
-    onPositionChange:FIXMELATER
-    onMMRChange:FIXMELATER
-    players: string = '0'
-    commands: string = '0'
-    messages: string = '0'
-}
-
-const AppHeader = (props: AppHeaderProps) => {
-    const {itemType, onMMRChange,onPositionChange,players, commands, messages} = props;
-    const classname = itemType === 'message' ? itemType:'';
+const AppHeader = () => {
+    const itemType = useAppSelector(state => state.filter.ItemType);
+    const {mCount, pCount, cCount} = useAppSelector(state => state.item);
+    const classname = itemType === 'message' ? itemType : '';
     return (
         <Stack direction={"row"} spacing={3} justifyContent={"space-between"}>
             <h2 className={classname}>Dota search</h2>
-            <FilterPanel itemType={itemType} onMMRChange={onMMRChange} onPositionChange={onPositionChange}/>
-            <h5 className='d-flex justify-content-end'>{messages} messages, {commands} commands, {players} players</h5>
+            <FilterPanel/>
+            <h5 className='d-flex justify-content-end'>{mCount} messages, {cCount} commands, {pCount} players</h5>
         </Stack>
     );
 };
