@@ -1,10 +1,11 @@
 Dota Search frontend project
 -----
 Технологии:
- -  TypeScript
- -  React
- -  Material.js
- -  WebSocket
+
+- TypeScript
+- React
+- Material.js
+- WebSocket
 
 Текущий план:
 

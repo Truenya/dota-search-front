@@ -1,11 +1,12 @@
 import React from 'react';
 import './Message.css';
+import {ItemTypeC, ItemType} from "../../../shared";
 
 export class MessageProps {
     Data: string = '';
     Link: string = '';
     Timestamp: number | string = '';
-    itemType: string = '';
+    ItemType: ItemType = ItemTypeC.MESSAGE;
 }
 
 const Message = (props: MessageProps) => {

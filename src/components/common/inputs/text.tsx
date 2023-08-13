@@ -1,13 +1,12 @@
-import {useState} from 'react';
+import React, {useState} from 'react';
 import {getId} from '../../../shared';
 import {FIXMELATER} from "../../../shared/Constants";
-import React from 'react';
 
 export const TextInput = (props: { name: string; player: FIXMELATER; placeholder: FIXMELATER; onChange: FIXMELATER; }) => {
     const {name, player, placeholder, onChange} = props;
     const value = player[name];
     const [id] = useState(getId('text_'));
-    return (    // @ts-ignore
+    return (
         <input
             name={name}
             className="flex-row input-user align-self-stretch"

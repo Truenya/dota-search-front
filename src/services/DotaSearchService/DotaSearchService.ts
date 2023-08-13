@@ -1,5 +1,8 @@
-import {FIXMELATER, HttpStatusCode, ItemType} from "../../shared/Constants";
-import {Player, Positions} from "../../shared";
+import {FIXMELATER, HttpStatusCode, ItemTypeC} from "../../shared/Constants";
+import {getId, Player, Positions} from "../../shared";
+import {itemActions} from "../../store/slice/item";
+import store from "../../store/store";
+import {FromArray, ToArray} from "../../shared/Types";
 
 const defaultHeaders = {
     'Accept': '*/*',
@@ -21,14 +24,12 @@ export default class DotaSearchService {
     }
 
 
-    SendToWs(msg: FIXMELATER){
-        // const data = JSON.stringify(this._toWsMessage(msg))
+    SendToWs(msg: Player) {
         this.ws.send(JSON.stringify(this._toWsMessage(msg)));
     }
 
-    SetWsOnMessage(callback: FIXMELATER){
-        // this.ws.onmessage = (v)=>callback(this._fromWsMessage(JSON.parse(JSON.parse(v.data))));
-        this.ws.onmessage = (v)=>callback(this._fromWsMessage(JSON.parse(v.data)));
+    SetWsOnMessage(callback: FIXMELATER) {
+        this.ws.onmessage = (v) => callback(this._fromWsMessage(JSON.parse(v.data)));
     }
 
     async getResource(url: string) {
@@ -104,7 +105,7 @@ export default class DotaSearchService {
             Data: user.data,
             MMR: user.mmr,
             Link: user.link,
-            PossiblePos: Positions.FromArray(user.possible_pos),
+            PossiblePos: FromArray(user.possible_pos),
             Ip: user.ip,
         };
     }
@@ -114,7 +115,7 @@ export default class DotaSearchService {
             Data: command.data,
             MMR: command.mmr,
             Link: command.link,
-            PossiblePos: Positions.FromArray(command.possible_pos),
+            PossiblePos: FromArray(command.possible_pos),
             Ip: command.ip,
         };
     }
@@ -130,10 +131,13 @@ export default class DotaSearchService {
     }
 
     _toPostPossiblePos(possiblePos: Positions) {
-        return Positions.ToArray(possiblePos);
+        const a = ToArray(possiblePos);
+        console.log(a);
+        return a;
     }
 
     _toPostUser(user: Player) {
+        console.log('POSTING USER ',JSON.stringify(user));
         return {
             data: user.Data,
             link: user.Link,
@@ -144,11 +148,11 @@ export default class DotaSearchService {
     }
 
     async postPlayer(user: Player) {
-        // console.log("posting user: ", user);
         return this.postResource('/player', this._toPostUser(user));
     }
 
     _toPostCommand(command: Player) {
+        console.log('POSTING COMMAND ',JSON.stringify(command));
         return {
             data: command.Data,
             link: command.Link,
@@ -159,20 +163,19 @@ export default class DotaSearchService {
     }
 
     async postCommand(command: Player) {
-        // console.log("posting command: ", command);
         return this.postResource('/command', this._toPostCommand(command));
     }
 
-    _fromWsMessage(value:FIXMELATER){
+    _fromWsMessage(value: FIXMELATER) {
         let val = Object()
-        switch (value.msg_type){
-            case ItemType.MESSAGE:
-                val= this._transformMessage(value);
+        switch (value.msg_type) {
+            case ItemTypeC.MESSAGE:
+                val = this._transformMessage(value);
                 break;
-            case ItemType.PLAYER:
+            case ItemTypeC.PLAYER:
                 val = this._transformUser(value);
                 break;
-            case ItemType.COMMAND:
+            case ItemTypeC.COMMAND:
                 val = this._transformCommand(value);
                 break;
             default:
@@ -186,12 +189,39 @@ export default class DotaSearchService {
 
     }
 
-    _toWsMessage(value:FIXMELATER){
-        switch (value.itemType){
-            case ItemType.PLAYER:
+    _toWsMessage(value: Player) {
+        switch (value.ItemType) {
+            case ItemTypeC.PLAYER:
+                console.log("PLAYER");
                 return this._toPostUser(value);
-            case ItemType.COMMAND:
+            case ItemTypeC.COMMAND:
+                console.log("COMMAND");
                 return this._toPostCommand(value);
         }
+        console.error("NOT VALID ITEM TYPE", value.ItemType);
     }
 }
+
+export const api = new DotaSearchService();
+
+
+const processWsMessage = (v: FIXMELATER) => {
+    const {addMessage, addPlayer, addCommand} = itemActions
+    // v = api._fromWsMessage(v);
+    v.key = getId(v.itemType);
+    switch (v.itemType) {
+        case ItemTypeC.MESSAGE:
+            store.dispatch(
+                addMessage(v));
+            break;
+        case ItemTypeC.PLAYER:
+            store.dispatch(
+                addPlayer(v));
+            break;
+        case ItemTypeC.COMMAND:
+            store.dispatch(
+                addCommand(v));
+            break;
+    }
+}
+api.SetWsOnMessage(processWsMessage);
