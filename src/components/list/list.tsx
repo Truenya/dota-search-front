@@ -1,16 +1,18 @@
 import ListItem from '../list-item';
 import './list.css';
 import {FIXMELATER} from "../../shared/Constants";
-// @ts-ignore
 import {Grid} from "@mui/material";
 import React from 'react';
+import {useAppSelector} from "../app/hooks";
+import {filterBySearch, filterByState} from "./FiltersApply";
 
 
-const List = (props: FIXMELATER) => {
-    const {items, loaded} = props;
-    if (!loaded ) return;
+const List = () => {
+    const itemType = useAppSelector(state => state.filter.ItemType);
+    const itemxs = useAppSelector(state => state.item[itemType]);
+    const term = useAppSelector(state => state.search.term);
+    const items = filterBySearch(filterByState(itemxs), term);
 
-    // @ts-ignore
     const elements = items.sort(({Timestamp}, b) => {
         if (Timestamp !== b.Timestamp) {
             if (Timestamp < b.Timestamp)
@@ -26,25 +28,13 @@ const List = (props: FIXMELATER) => {
                     {...itemProps}
                 />
             </Grid>
-            // <li key={key} className="list-group-item">
-            //     <ListItem
-            //         {...itemProps}
-            //     />
-            // </li>
         );
     });
 
     return (
-        // @ts-ignore
-    <Grid container alignItems="stretch" direction="column" className="list">
-        {elements}
-    </Grid>
-    // <Grid container alignItems="stretch" className="list-group list" divider={<Divider orientation="horizontal" flexItem />}>
-    //     {elements}
-    // </Grid>
-        // <Stack className="list-group list" divider={<Divider orientation="horizontal" flexItem />}>
-        //     {elements}
-        // </Stack>
+        <Grid container alignItems="stretch" direction="column" className="list">
+            {elements}
+        </Grid>
     );
 };
 

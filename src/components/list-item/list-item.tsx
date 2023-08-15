@@ -1,22 +1,18 @@
 import './list-item.css';
-import PlayerCard, {PlayerProps} from './player/PlayerCard';
+import PlayerCard from './player/PlayerCard';
 import Message, {MessageProps} from './message/Message';
 import CommandCard from "./command/CommandCard";
 import React from 'react';
-// import Command
+import {FIXMELATER} from "../../shared/Constants";
 
-
-const ListItem = (props: MessageProps | PlayerProps) => {
+// FIXME почему сюда itemType приходит? Хочу ItemType
+const ListItem = (props: MessageProps | FIXMELATER) => {
     switch (props.itemType) {
         case 'player':
-            // @ts-ignore
             return <PlayerCard {...props}/>;
         case 'message':
-            // @ts-ignore
             return <Message {...props}/>;
         case 'command':
-            // console.log("rendering command:", props);
-            // @ts-ignore
             return <CommandCard {...props}/>;
         default:
             return (

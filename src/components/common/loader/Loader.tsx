@@ -1,8 +1,8 @@
 import React from 'react';
 import './loader.css';
+
 const Loader = () => {
     return (
-        // @ts-ignore
         <div className="loadingio-spinner-bean-eater-iqm2zlr0j4">
             <div className="ldio-7trlbt9tuuo">
                 <div>
