@@ -4,8 +4,10 @@ import {MessageProps} from "../list-item/message/Message";
 
 export const filterBySearch = (arr: Player[] | MessageProps[], term: string) => {
     if (term.trim() === '') return arr;
-    return arr.filter(({Data}) => {
-        const lowerLabel = Data.toLowerCase();
+    return arr.filter((item: Player | MessageProps) => {
+        const {Data} = item;
+        if (Data === undefined) return false;
+        const lowerLabel = Data!.toLowerCase();
         return lowerLabel.indexOf(term.toLowerCase()) > -1;
     });
 };
